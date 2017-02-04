@@ -1,18 +1,16 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Google Calendar API Quickstart</title>
-    <meta charset='utf-8' />
-  </head>
-  <body>
-    <p>Google Calendar Sync</p>
+{% extends "base.html" %}
+{% block title %}Google Calendar Sync{% endblock %}
+{% block body %}
+
+
 
     <!--Add buttons to initiate auth sequence and sign out-->
-    <form action = "http://localhost:5000/list" method = "GET">
+    <form action = "/list" method = "GET">
         <input type = "submit" value="back" />
     </form>    
-    <button id="authorize-button" style="display: none; padding: 20px 20px;">Authorize</button>
-    <button id="signout-button" style="display: none;">Sign Out</button>
+    <button id="authorize-button" style="display: none;">google sign-in</button>
+    <button id="signout-button" style="display: none;">sign out</button>
+    <button id="sync-button" style="display: none; padding: 20px 20px margin-top: 10px">sync!</button>
     
 
     <pre id="content"></pre>
@@ -30,6 +28,7 @@
 
       var authorizeButton = document.getElementById('authorize-button');
       var signoutButton = document.getElementById('signout-button');
+      var syncButton = document.getElementById('sync-button');
 
       /**
        *  On load, called to load the auth2 library and API client library.
@@ -55,6 +54,8 @@
           updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
           authorizeButton.onclick = handleAuthClick;
           signoutButton.onclick = handleSignoutClick;
+          syncButton.onclick = handleSyncClick;
+
         });
       }
 
@@ -66,8 +67,27 @@
         if (isSignedIn) {
           authorizeButton.style.display = 'none';
           signoutButton.style.display = 'block';
-          
-          var events = {{favorites|tojson}}
+          syncButton.style.display = 'block';
+
+          //listUpcomingEvents();
+          //insertEvent("here", "now", "2017-02-5T12:00:00.000-07:00", "2017-02-5T12:30:00.000-07:00");
+        } else {
+          authorizeButton.style.display = 'block';
+          signoutButton.style.display = 'none';
+          syncButton.style.display = 'none';
+        }
+      }
+
+      /**
+       *  Sign in the user upon button click.
+       */
+      function handleAuthClick(event) {
+        gapi.auth2.getAuthInstance().signIn();
+      }
+
+
+      function handleSyncClick(event) {
+        var events = {{favorites|tojson}}
           console.log(events);
 
 
@@ -96,20 +116,6 @@
               }
               insertEvent(sum, desc, sd, ed);
           }
-          
-          //listUpcomingEvents();
-          //insertEvent("here", "now", "2017-02-5T12:00:00.000-07:00", "2017-02-5T12:30:00.000-07:00");
-        } else {
-          authorizeButton.style.display = 'block';
-          signoutButton.style.display = 'none';
-        }
-      }
-
-      /**
-       *  Sign in the user upon button click.
-       */
-      function handleAuthClick(event) {
-        gapi.auth2.getAuthInstance().signIn();
       }
 
       /**
@@ -191,5 +197,4 @@
       onload="this.onload=function(){};handleClientLoad()"
       onreadystatechange="if (this.readyState === 'complete') this.onload()">
     </script>
-  </body>
-</html>
+{% endblock %}

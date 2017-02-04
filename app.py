@@ -15,6 +15,7 @@ from pdfminer.pdfpage import PDFPage
 
 import json
 import date_parser
+import os
 
 app = Flask(__name__)
 api = Api(app)
@@ -93,6 +94,7 @@ def upload_file():
       f = request.files['file']
       f.save(secure_filename(f.filename))
       result = convert(f.filename)
+      os.remove(f.filename)
       dates, events = date_parser.stringToEvents(result)
       saveEvents(dates, events)
       return redirect("/list")

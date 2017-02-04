@@ -13,7 +13,7 @@ a:active  {color:yellow; background-color:transparent; text-decoration:underline
 </style>
     <title> Syllabusted </title>
        <link href='https://fonts.googleapis.com/css?family=Lato:400,700,900,400italic' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
 
 </head>
 <!--<nav>
@@ -29,8 +29,13 @@ a:active  {color:yellow; background-color:transparent; text-decoration:underline
  <!-- <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FNew_York" style="border-width:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
    -->
    <p>
-   Input the syllabus from your favorite class: 
+   <a href="/list">my schedule</a> 
    </p>
+
+   <p>
+   or input the syllabus from your favorite class: 
+   </p>
+   
       <form action = "http://localhost:5000/uploader" method = "POST" 
          enctype = "multipart/form-data">
          <input type = "file" name = "file" class="w3-btn w3-light-grey w3-padding-xlarge" style="margin-top:64px; margin-bottom:64px; text-size:50px"/>
